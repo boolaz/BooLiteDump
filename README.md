@@ -13,20 +13,22 @@ Boolaz SQLite Dump
 
 The purpose of this tool is initially related to mobile forensic. It is complementary to commercial forensic tools.
 
-Whatever forensic tool you are using (Cellebrite UFED, XRY, Oxygen) to examine mobile phones, they are all capable of extracting SQLite databases from the cellphones. Though, even if they all succeed at doing this, they are all not capable of analyzing each and every type of database that may be stored in the device, since a prior description of the schemas is required.
+Whatever forensic tool you are using (Cellebrite UFED, XRY, Oxygen) to examine mobile phones, they are all capable of extracting SQLite databases from the cellphones. Though, even if they all succeed in doing this, they are all not capable of analyzing each and every type of database that may appear in the device, since a prior implementation (description) of the schema is required.
 
-For instance, if the cellphone is using an application which is not widespread, except in one country (ie: la fourchette in France), it is not worth it for the editor to implement this application in his forensic tool.
+For instance, if the cellphone is using an application which is not widespread worldwide, except in one country (ie: la fourchette in France), it is not worth it for the editor to implement this application in his forensic tool. As an example, if you examine a french smartphone with UFED, the database file for "la fourchette" will be extracted successfully but the data won't be analyzed by Cellebrite.
 
 Though, as a forensic examiner, it is important sometimes to review all the databases that a device contains since they may comprise information which are crucial for the case.
 
 BooLiteDump is aimed at dumping each and every table from every database in raw text CSV files. It makes it possible to search through them in a straightforward manner with tools like grep.
+
+It also produces a CSV file, to summarize the number of records in each table so that you can easily focus on the most important ones without wasting your time opening every database with SQLiteBrowser and examining each table.
 
 Requirements
 ------------
 
 BooLiteDump has been developed in python and has been successfully tested on Linux Ubuntu 14.04 LTS and MacOSX 10.11.6 El Capitan
 
-This tool doesn't require additional python modules to be run. It just needs python 2.7+
+This tool doesn't require any additional python modules to be run. It just needs python 2.7+
 
 Dumping the databases
 ---------------------
@@ -37,9 +39,56 @@ You just have to execute the script with two or more parameters
 
     $ booLiteDump.py files/databases dst_folder
 
-This commmand will automatically search in the files/databases folder for SQLite database files, and dump all the tables they contain in a bunch of raw text CSV files in the destination folder.
+This commmand will automatically search in the "files/databases" folder for SQLite database files, and dump all the tables they contain in a bunch of raw text CSV/TSV files in the destination folder. By default the files created by booLiteDump are Tab Separated Files so that they can be easily processed with common linux tools (awk, sed, cut...) or a spreadsheet.
+
+    /-----------------------/
+    /  SEARCHING FOR FILES  /
+    /-----------------------/
+    234 files found
+
+    /----------------------------------------/
+    /  SEARCHING FOR SQLITE HEADER IN FILES  /
+    /----------------------------------------/
+    234 SQLite files found
+
+    /----------------------------/
+    /  DUMPING NON-EMPTY TABLES  /
+    /----------------------------/
+    /home/geek/Bureau/BureauMac/Database/accounts.db
+    /home/geek/Bureau/BureauMac/Database/admined_pages_db
+    /home/geek/Bureau/BureauMac/Database/alarms.db
+    /home/geek/Bureau/BureauMac/Database/all.db
+    /home/geek/Bureau/BureauMac/Database/analytics_db2
+    /home/geek/Bureau/BureauMac/Database/analytics_db2_1
+    ...
+    /home/geek/Bureau/BureauMac/Database/youtube_upload_service
+    Extracted tables: 626
+
+    /-----------------------/
+    /  CREATING SUMMARY...  /
+    /-----------------------/
+    Created file : dst_folder/booLitedump/tables.tsv
 
 If you are interested in keeping a copy of the initial databases you've just processed, you can add the ``--copy`` option, so that it will create a new subfolder in the destination directory, to store the original files.
+
+Eventually you will get a CSV file (tab separated) for each SQLite database and one additional CSV file for the summary.
+
+    DB num  DB file Table   Records
+    1       /Users/bruno/Desktop/Database/accounts.db       android_metadata        1
+    1       /Users/bruno/Desktop/Database/accounts.db       accounts        3
+    1       /Users/bruno/Desktop/Database/accounts.db       sqlite_sequence 3
+    1       /Users/bruno/Desktop/Database/accounts.db       authtokens      41
+    1       /Users/bruno/Desktop/Database/accounts.db       grants  0
+    1       /Users/bruno/Desktop/Database/accounts.db       extras  98
+    1       /Users/bruno/Desktop/Database/accounts.db       meta    0
+    2       /Users/bruno/Desktop/Database/admined_pages_db  android_metadata        1
+    2       /Users/bruno/Desktop/Database/admined_pages_db  _shared_version 4
+    2       /Users/bruno/Desktop/Database/admined_pages_db  admined_pages_table     0
+    3       /Users/bruno/Desktop/Database/alarms.db android_metadata        1
+    3       /Users/bruno/Desktop/Database/alarms.db alarms  2
+    3       /Users/bruno/Desktop/Database/alarms.db ringtone        0
+    4       /Users/bruno/Desktop/Database/all.db    countries       10707
+    ...
 
 Todo list
 ---------
