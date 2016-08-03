@@ -80,7 +80,7 @@ def get_tables_list(database):
 		cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
 		for table in cursor.fetchall():
 			nomtable=table[0]
-			sql="SELECT count(*) FROM '%s';" % nomtable
+			sql="SELECT count(*) FROM '{0}';".format(nomtable)
 			try:
 				cursor.execute(sql)
 				row=cursor.fetchone()
@@ -95,13 +95,13 @@ def get_tables_list(database):
 
 def dump_table_data(database,tablename,path,cpt):
 	con = lite.connect(database)
-	debnom=re.sub('/|\.', '_',"%s" % database)
-	debnom=re.sub('^_', '',"%s" % debnom)
+	debnom=re.sub('/|\.', '_',"{0}".format(database))
+	debnom=re.sub('^_', '',"{0}".format(debnom))
 	filename="%s/%03d%s-%s.tsv" % (path,cpt,debnom,tablename)
 	exportfile=open(filename,"w")
 	cursor = con.cursor()
 	if tablename: #
-		sql="SELECT * FROM '%s';" % tablename
+		sql="SELECT * FROM '{0}';".format(tablename)
 		cursor.execute(sql)
 		fieldnames=[f[0] for f in cursor.description]
 		exportfile.write("\t".join(fieldnames))
@@ -170,8 +170,8 @@ def main(argv):
 	for database in sqliteFiles:
 		print database
 		cpt+=1
-		debnom=re.sub('^\.|/', '_',"%s" % database)
-		debnom=re.sub('^_', '',"%s" % debnom)
+		debnom=re.sub('^\.|/', '_',"{0}".format(database))
+		debnom=re.sub('^_', '',"{0}".format(debnom))
 		if copyfiles: shutil.copy(database, "%s/%03d%s" \
 		                          % (originpath,cpt,debnom))
 
