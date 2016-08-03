@@ -19,11 +19,11 @@ For instance, if the cellphone is using an application which is not widespread w
 
 Though, as a forensic examiner, it is important sometimes to review all the databases that a device contains since they may comprise information which are crucial for the case.
 
-BooLiteDump is aimed at dumping each and every table from every database in raw text CSV files. It makes it possible to search through them in a straightforward manner with tools like grep.
+BooLiteDump is aimed at dumping each and every table that contains data, from every database file, into raw text CSV files. It makes it possible to search through them in a straightforward manner with tools like grep or simply a spreadsheet software (should I say libreoffice :-) ?
 
-It also produces a CSV file, to summarize the number of records in each table so that you can easily focus on the most important ones without wasting your time opening every database with SQLiteBrowser and examining each table.
+It also produces a CSV file, to summarize the number of records in each table so that you can easily focus on the most important ones without wasting your time opening every database with SQLiteBrowser and examining each table content.
 
-Requirements
+Prerequisites
 ------------
 
 BooLiteDump has been developed in python and has been successfully tested on Linux Ubuntu 14.04 LTS and MacOSX 10.11.6 El Capitan
@@ -33,13 +33,15 @@ This tool doesn't require any additional python modules to be run. It just needs
 Dumping the databases
 ---------------------
 
-Once you have all the files extracted from the cellphone, your forensic tool should present you with a list of files ordered by type. For instance, Cellebrite UFED stores all the databases extracted from a cellphone in ``files/databases`` folder.
+Once you have all the files extracted from your cellphone, your forensic tool should present you with a list of files ordered by type. For instance, Cellebrite UFED stores all the databases extracted from a cellphone in the ``files/databases`` folder.
 
 You just have to execute the script with two or more parameters
 
     $ booLiteDump.py files/databases dst_folder
 
-This commmand will automatically search in the "files/databases" folder for SQLite database files, and dump all the tables they contain in a bunch of raw text CSV/TSV files in the destination folder. By default the files created by booLiteDump are Tab Separated Files so that they can be easily processed with common linux tools (awk, sed, cut...) or a spreadsheet.
+This commmand will automatically search in the "files/databases" folder for SQLite database files, and dump all the tables they contain in a bunch of raw text CSV/TSV files in the destination folder. By default the files created by booLiteDump are Tab Separated Files so that they can be easily processed with common linux tools (awk, sed, cut...) or a spreadsheet software.
+
+    $ ./booLiteDump.py ~/Bureau/BureauMac/Database/ ~/Bureau/BureauMac/boolitedump
 
     /-----------------------/
     /  SEARCHING FOR FILES  /
