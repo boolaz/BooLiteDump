@@ -41,7 +41,7 @@ You just have to execute the script with two or more parameters
 
 This commmand will automatically search in the "files/databases" folder for SQLite database files, and dump all the tables they contain in a bunch of raw text CSV/TSV files in the destination folder. By default the files created by booLiteDump are Tab Separated Files so that they can be easily processed with common linux tools (awk, sed, cut...) or a spreadsheet software.
 
-    $ ./booLiteDump.py ~/Bureau/BureauMac/Database/ ~/Bureau/BureauMac/boolitedump
+    $ ./booLiteDump.py ./Database/ ./boolitedump
 
     /-----------------------/
     /  SEARCHING FOR FILES  /
@@ -56,14 +56,14 @@ This commmand will automatically search in the "files/databases" folder for SQLi
     /----------------------------/
     /  DUMPING NON-EMPTY TABLES  /
     /----------------------------/
-    /home/geek/Bureau/BureauMac/Database/accounts.db
-    /home/geek/Bureau/BureauMac/Database/admined_pages_db
-    /home/geek/Bureau/BureauMac/Database/alarms.db
-    /home/geek/Bureau/BureauMac/Database/all.db
-    /home/geek/Bureau/BureauMac/Database/analytics_db2
-    /home/geek/Bureau/BureauMac/Database/analytics_db2_1
+    ./Database/accounts.db
+    ./Database/admined_pages_db
+    ./Database/alarms.db
+    ./Database/all.db
+    ./Database/analytics_db2
+    ./Database/analytics_db2_1
     ...
-    /home/geek/Bureau/BureauMac/Database/youtube_upload_service
+    ./Database/youtube_upload_service
     Extracted tables: 626
 
     /-----------------------/
@@ -76,20 +76,20 @@ If you are interested in keeping a copy of the initial databases you've just pro
 Eventually you will get a CSV file (tab separated) for each SQLite database and one additional CSV file for the summary.
 
     DB num  DB file Table   Records
-    1       /Users/bruno/Desktop/Database/accounts.db       android_metadata        1
-    1       /Users/bruno/Desktop/Database/accounts.db       accounts        3
-    1       /Users/bruno/Desktop/Database/accounts.db       sqlite_sequence 3
-    1       /Users/bruno/Desktop/Database/accounts.db       authtokens      41
-    1       /Users/bruno/Desktop/Database/accounts.db       grants  0
-    1       /Users/bruno/Desktop/Database/accounts.db       extras  98
-    1       /Users/bruno/Desktop/Database/accounts.db       meta    0
-    2       /Users/bruno/Desktop/Database/admined_pages_db  android_metadata        1
-    2       /Users/bruno/Desktop/Database/admined_pages_db  _shared_version 4
-    2       /Users/bruno/Desktop/Database/admined_pages_db  admined_pages_table     0
-    3       /Users/bruno/Desktop/Database/alarms.db android_metadata        1
-    3       /Users/bruno/Desktop/Database/alarms.db alarms  2
-    3       /Users/bruno/Desktop/Database/alarms.db ringtone        0
-    4       /Users/bruno/Desktop/Database/all.db    countries       10707
+    1       ./Database/accounts.db       android_metadata        1
+    1       ./Database/accounts.db       accounts        3
+    1       ./Database/accounts.db       sqlite_sequence 3
+    1       ./Database/accounts.db       authtokens      41
+    1       ./Database/accounts.db       grants  0
+    1       ./Database/accounts.db       extras  98
+    1       ./Database/accounts.db       meta    0
+    2       ./Database/admined_pages_db  android_metadata        1
+    2       ./Database/admined_pages_db  _shared_version 4
+    2       ./Database/admined_pages_db  admined_pages_table     0
+    3       ./Database/alarms.db android_metadata        1
+    3       ./Database/alarms.db alarms  2
+    3       ./Database/alarms.db ringtone        0
+    4       ./Database/all.db    countries       10707
     ...
 
 Todo list
