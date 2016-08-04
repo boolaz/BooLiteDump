@@ -8,8 +8,8 @@
                                                               |_|    
 
 
-Boolaz SQLite Dump
-==================
+SQLite Dump
+===========
 
 The purpose of this tool is initially related to mobile forensic. It is complementary to commercial forensic tools.
 
