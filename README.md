@@ -15,13 +15,13 @@ The purpose of this tool is initially related to mobile forensic. It is compleme
 
 Whatever forensic tool you are using (Cellebrite UFED, XRY, Oxygen) to examine mobile phones, they are all capable of extracting SQLite databases from the cellphones. Though, even if they all succeed in doing this, they are all not capable of analyzing each and every type of database that may appear in the device, since a prior implementation (description) of the schema is required.
 
-For instance, if the cellphone is using an application which is not widespread worldwide, except in one country (ie: la fourchette in France), it is not worth it for the editor to implement this application in his forensic tool. As an example, if you examine a french smartphone with UFED, the database file for "la fourchette" will be extracted successfully but the data won't be analyzed by Cellebrite.
+For instance, if the cellphone is using an application which is not widespread worldwide, except in one country (ie: la fourchette in France), it is not worth it for the vendor to implement this application in its forensic tool. As an example, if you examine a french smartphone with UFED, the database file for "la fourchette" will be extracted successfully but the data won't be analyzed by Cellebrite.
 
-Though, as a forensic examiner, it is important sometimes to review all the databases that a device contains since they may comprise information which are crucial for the case.
+Though, as a forensic examiner, it is important sometimes to review comprehensively all the databases that a device contains since they may comprise pieces of information which are crucial for the case.
 
-BooLiteDump is aimed at dumping each and every table that contains data, from every database file, into raw text CSV files. It makes it possible to search through them in a straightforward manner with tools like grep or simply a spreadsheet software (should I say libreoffice :-) ?
+BooLiteDump is aimed at dumping each and every table that contains data, from every database file, into raw text CSV files. It makes it possible to search through them in a straightforward manner with tools like grep or simply a spreadsheet software (or even apercu on a Mac computer) ?
 
-It also produces a CSV file, to summarize the number of records in each table so that you can easily focus on the most important ones without wasting your time opening every database with SQLiteBrowser and examining each table content.
+It also produces a CSV file, to summarize the number of records in each table so that you can easily focus on the most important ones without wasting your time opening every database with SQLiteBrowser and examining the content of each table.
 
 Prerequisites
 ------------
@@ -30,7 +30,7 @@ BooLiteDump has been developed in python and has been successfully tested on Lin
 
 This tool doesn't require any additional python modules to be run. It just needs python 2.7+
 
-An executable windows binary file is also available for download.
+A binary file for windows is also available for download.
 
 Dumping the databases
 ---------------------
