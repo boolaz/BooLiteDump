@@ -3,8 +3,8 @@
 # ----------------------------------------------------
 # Name 		: booLiteDump
 # Author 	: Bruno Valentin
-# date 		: 21/01/2016
-# Revision	: 0.1
+# date 		: 25/08/2016
+# Revision	: 1.0
 # Purpose	: Finds & dumps SQLite databases
 # ----------------------------------------------------
 
@@ -18,14 +18,42 @@ from genericpath import exists
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-def usage():
-	print textwrap.dedent("""\
-    \033[1musage: booLiteDump.py [options] src_folder dst_folder\033[0m
-    options:
-    	-h, --help : help
-    	-c, --copy : Copy SQLite files to an external folder
-    """)
+softdesc={"name":"booLiteDump",
+          "version":"1.0", \
+          "release":"25/08/2016", \
+          "purpose":"Dumps content of non-empty SQlite tables to CSV files", \
+          "link":"https://github.com/boolaz/booLitedump" }
 
+usage_text="""USAGE: booLiteDump.py [options] src_folder dst_folder
+options:
+  -h, --help : help
+  -c, --copy : Create copy of original SQLite databases"""
+
+#-------------------------
+class Banner(object):
+    """Banner for the program"""
+    def __init__(self, banner_values):
+        super(Banner, self).__init__()
+        self.banner_values = banner_values
+
+    def display(self):
+        print("""
+****************************************************** \n\
+* {0} {1} ({2}) \n\
+* Author : Bruno Valentin (bruno@boolaz.com) \n\
+* {3}           \n\
+* Updates : {4} \n\
+******************************************************\n""" \
+         .format(self.banner_values['name'],self.banner_values['version'],
+                 self.banner_values['release'],self.banner_values['purpose'],
+                 self.banner_values['link']))
+
+#-------------------------
+def usage(usage_text):
+    """Usage"""
+    print usage_text+"\n"
+
+#-------------------------
 def mkdir(dirname):
 	if not os.path.isdir(dirname):
 		try:
@@ -33,12 +61,14 @@ def mkdir(dirname):
 		except:
 			pass
 
+#-------------------------
 def display_title(title):
-	sep='/'+'-' * (len(title)+4)+'/'
-	print "\033[1m{0}".format(sep)
-	print "/  {0}  /".format(title)
-	print "{0}\033[0m".format(sep)
+	sep=''+'-' * (len(title)+6)+''
+	print "{0}".format(sep)
+	print "|  {0}  |".format(title)
+	print "{0}".format(sep)
 
+#-------------------------
 def get_file_list(chemin):
 	fichiers=[]
 	for root, dirs, files in os.walk(chemin, topdown=False):
@@ -46,6 +76,7 @@ def get_file_list(chemin):
 			fichiers.append(os.path.join(root, i))
 	return(fichiers)
 
+#-------------------------
 def is_sqlite(fichier):
 	try:
 		curfile=open(fichier,"rb")
@@ -58,6 +89,7 @@ def is_sqlite(fichier):
 		exit(0)
 	return(isSQLite)
 
+#-------------------------
 def sqlite_get_file_list(chemin):
 
 	display_title("SEARCHING FOR FILES")
@@ -72,6 +104,7 @@ def sqlite_get_file_list(chemin):
 	print "{0} SQLite files found\n".format(len(sqliteFiles))
 	return(sqliteFiles)
 
+#-------------------------
 def get_tables_list(database):
 	tables=[]
 	try:
@@ -93,11 +126,13 @@ def get_tables_list(database):
 		pass
 	return tables
 
+#-------------------------
 def dump_table_data(database,tablename,path,cpt):
 	con = lite.connect(database)
-	debnom=re.sub('/|\.', '_',"{0}".format(database))
+	debnom=re.sub('/|\.|\\\\', '_',"{0}".format(database))
 	debnom=re.sub('^_', '',"{0}".format(debnom))
-	filename="%s/%03d%s-%s.tsv" % (path,cpt,debnom,tablename)
+	#print debnom
+	filename="./{0}/{1:03d}-{2}-{3}.tsv".format(path,cpt,debnom,tablename)
 	exportfile=open(filename,"w")
 	cursor = con.cursor()
 	if tablename: #
@@ -110,6 +145,7 @@ def dump_table_data(database,tablename,path,cpt):
 			exportfile.write('\t'.join(map(str, row)))
 			exportfile.write('\n')
 
+#-------------------------
 def export_csv_file(filename,outdir,lines,sep):
 	mkdir(outdir)
 	filename=outdir + '/' + filename
@@ -119,14 +155,20 @@ def export_csv_file(filename,outdir,lines,sep):
 		exportfile.write(line+'\n')
 	return(filename)
 
+#-------------------------
 def remove_ascii_non_printable(chunk):
 	chunk = ' '.join(chunk .split())
 	return ''.join([ch for ch in chunk if (ord(ch) > 31 and ord(ch) < 34) \
 	               or (ord(ch) > 34 and ord(ch) < 126)])
 
+#-------------------------
 def main(argv):
 
 	copyfiles = False
+
+	my_banner=Banner(softdesc)
+	my_banner.display()
+
 
 	# Any argument ?
 	try:
@@ -140,12 +182,12 @@ def main(argv):
 	try:
 		chemin,destdir=args
 	except:
-		usage()
+		usage(usage_text)
 		sys.exit(2)
 
 	for opt, arg in opts:
 		if opt in ("-h", "--help"):
-			usage()
+			usage(usage_text)
 			sys.exit()
 		elif opt in ("-c", "--copy"):
 			try:
@@ -170,10 +212,10 @@ def main(argv):
 	for database in sqliteFiles:
 		print database
 		cpt+=1
-		debnom=re.sub('^\.|/', '_',"{0}".format(database))
+		debnom=re.sub('^\.|/|\\\\', '_',"{0}".format(database))
 		debnom=re.sub('^_', '',"{0}".format(debnom))
-		if copyfiles: shutil.copy(database, "%s/%03d%s" \
-		                          % (originpath,cpt,debnom))
+		if copyfiles: shutil.copy(database, "{0}/{1:03d}-{2}" \
+		                          .format(originpath,cpt,debnom))
 
 		tables=get_tables_list(database)
 		for table in tables:
@@ -198,5 +240,6 @@ def main(argv):
 			print "{0}".fomat(line)
 	print "\n"
 
+#-------------------------
 if __name__ == "__main__":
 	main(sys.argv[1:])

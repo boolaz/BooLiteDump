@@ -26,9 +26,11 @@ It also produces a CSV file, to summarize the number of records in each table so
 Prerequisites
 ------------
 
-BooLiteDump has been developed in python and has been successfully tested on Linux Ubuntu 14.04 LTS and MacOSX 10.11.6 El Capitan
+BooLiteDump has been developed in python and has been successfully tested on Linux Ubuntu 14.04 LTS, MacOSX 10.11.6 El Capitan and Windows 8.1 64 bits
 
 This tool doesn't require any additional python modules to be run. It just needs python 2.7+
+
+An executable windows binary file is also available for download.
 
 Dumping the databases
 ---------------------
