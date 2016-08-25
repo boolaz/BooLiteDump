@@ -97,7 +97,6 @@ Eventually you will get a CSV file (tab separated) for each SQLite database and 
 Todo list
 ---------
 - Carving residual data in the free lists and unallocated space in SQLite databases
-- compiled binary version for windows
 
 
 Stay tuned for updates and please, feel free to report any bug to the author.
