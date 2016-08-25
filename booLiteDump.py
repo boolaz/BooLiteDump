@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # ----------------------------------------------------
-# Name 		: booLiteDump
-# Author 	: Bruno Valentin
-# date 		: 25/08/2016
-# Revision	: 1.0
-# Purpose	: Finds & dumps SQLite databases
+# Name : booLiteDump
+# Author : Bruno VALENTIN (bruno@boolaz.com)
+# date : 25/08/2016
+# Revision : 1.0
+# Purpose : Finds & dumps SQLite databases
 # ----------------------------------------------------
 
 import os,sys,re,getopt,shutil
